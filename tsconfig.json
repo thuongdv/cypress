@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "outDir": "../dist/out-tsc",
+    "target": "es2018",
+    "module": "es2020",
+    "lib": [
+      "es2018",
+      "dom"
+    ],
+    "types": [
+      "cypress",
+      "cypress-xpath",
+      "node",
+      "@shelex/cypress-allure-plugin",
+      "@badeball/cypress-cucumber-preprocessor"
+    ],
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "allowJs": true,
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
+  },
+  "include": [
+    "**/*.ts",
+    "../node_modules/@shelex/cypress-allure-plugin/reporter",
+    "../node_modules/cypress"
+  ],
+  "exclude": [
+    "../dist/out-tsc"
+  ],
+  "typeRoots": [
+    "node_modules/@types"
+  ]
+}

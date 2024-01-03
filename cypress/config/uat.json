@@ -1,0 +1,6 @@
+{
+  "baseUrl": "https://demowebshop.tricentis.com/",
+  "env": {
+    "API_SERVER": "https://demowebshop.tricentis.com/"
+  }
+}

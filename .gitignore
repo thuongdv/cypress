@@ -1,0 +1,12 @@
+node_modules
+cypress/videos
+cypress/screenshots
+cypress/downloads
+reports/
+allure-results
+runner-results
+mochawesome-report
+cypress/logs
+.idea
+cucumber-messages.ndjson
+cucumber-report.html

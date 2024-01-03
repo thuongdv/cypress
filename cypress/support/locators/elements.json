@@ -1,0 +1,20 @@
+{
+  "LoginPage": {
+    "Email Address": {
+      "selector": "#email",
+      "type": "TextBox"
+    },
+    "Password": {
+      "selector": "#password",
+      "type": "TextBox"
+    },
+    "Sign In": {
+      "selector": "#next",
+      "type": "Button"
+    },
+    "Forgot your password?": {
+      "selector": "#forgotPassword",
+      "type": "Link"
+    }
+  }
+}
