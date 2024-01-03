@@ -6,7 +6,6 @@ export interface ILocator {
 }
 
 export enum HtmlLocatorType {
-  Link, Button, ComboBox, ComboBoxNumberValue, TextBox, RadioButton, DirectRadioButton, Checkbox,
-  DynamicControl, DriverPlanControl, UnstableComboBox, DateTextBox, TextBoxWithValidation, Element,
-  AutoRefreshingTextBox
+  Link, Button, ComboBox, ComboBoxNumberValue, TextBox, RadioButton, Checkbox,
+  DynamicControl, UnstableComboBox, DateTextBox, TextBoxWithValidation, Element
 }

@@ -2,7 +2,7 @@ import {DateTime} from 'luxon';
 
 export class DateTimeHelper {
   public static readonly DEFAULT_DATE_FORMAT: string = 'yyyy-MM-dd\'T\'HH:mm:ss';
-  public static readonly AGENCY_DATE_FORMAT: string = 'yyyy-MM-dd';
+  public static readonly COMMON_DATE_FORMAT: string = 'yyyy-MM-dd';
   public static readonly DATE_FORMAT: string = 'dd/MM/yyyy';
 
   /**
@@ -86,7 +86,7 @@ export class DateTimeHelper {
    * Get the date from date and then adding number of years with given format
    * @param fromDate string
    * @param year number
-   * @param format
+   * @param format string
    * @returns string with given format
    */
   public static getDatePlusYearWithFormat(fromDate: string, year: number, format: string): string {
@@ -103,7 +103,7 @@ export class DateTimeHelper {
   public static getDateWithYear(year: number): string {
     return DateTime.now()
       .plus({years: year})
-      .toFormat(this.AGENCY_DATE_FORMAT);
+      .toFormat(this.COMMON_DATE_FORMAT);
   }
 
   /**

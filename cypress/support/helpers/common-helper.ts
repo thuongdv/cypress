@@ -1,5 +1,4 @@
 /* tslint:disable:prefer-const triple-equals typedef */
-import nric from 'nric';
 import {DateTimeHelper} from './date-time-helper';
 import CacheStorageKey from './cache-storage-key';
 import {CacheHelper} from './cache-helper';
@@ -17,20 +16,11 @@ export class CommonHelper {
   }
 
   public static generateEmailAddress(): string {
-    return 'auto-' + new Date().getTime() + '@test.da.com';
-  }
-
-  public static generateDAGmailAddress(): string {
-    return 'da.aqatest+' + new Date().getTime() + '@gmail.com';
+    return 'auto-' + new Date().getTime() + '@test.com';
   }
 
   public static copyObject(object: any): any {
     return JSON.parse(JSON.stringify(object));
-  }
-
-  public static generateAgentNumber(agentType: string): string {
-    let longNumber = CommonHelper.getRandomNumber(100000000, 999999999).toString();
-    return agentType + longNumber + 'DSIA';
   }
 
   public static generateValue(value: any): any {
@@ -53,7 +43,6 @@ export class CommonHelper {
         newValue = matchVarTypeRex[1];
       }
 
-
       const variableNameMatchRex = value.match(/<(.*)>/i);
       if (variableNameMatchRex !== null) {
         variableName = variableNameMatchRex[1];
@@ -66,25 +55,22 @@ export class CommonHelper {
     }
 
     switch (newValue) {
-      case 'UNIQUE_FIRSTNAME':
+      case 'FIRSTNAME':
         result = CommonHelper.sanitizeXpathString(faker.name.firstName());
         break;
-      case 'UNIQUE_FULL_NAME':
+      case 'FULL_NAME':
         result = CommonHelper.sanitizeXpathString(faker.name.fullName());
         CacheHelper.getInstance().setItem(variableName, result);
         break;
-      case 'UNIQUE_PREFERRED_NAME':
+      case 'PREFERRED_NAME':
         result = 'PN ' + CommonHelper.sanitizeXpathString(faker.name.fullName());
         CacheHelper.getInstance().setItem(variableName, result);
         break;
-      case 'UNIQUE_LASTNAME':
+      case 'LASTNAME':
         result = CommonHelper.sanitizeXpathString(faker.name.lastName());
         break;
       case 'RANDOM_VEHICLE_NUMBER':
         result = 'TEST' + this.getRandomNumber(1000, 9999);
-        break;
-      case 'NRIC':
-        result = nric.generateNRIC();
         break;
       case 'NRIC_FROM_API':
         result = CacheHelper.getInstance().getItem(CacheStorageKey.API_CONTACT)['nric'];
@@ -128,44 +114,44 @@ export class CommonHelper {
       case 'UNIQUE_EMAIL':
         result = CommonHelper.generateEmailAddress();
         break;
-      case 'UNIQUE_NUMBER':
+      case 'NUMBER':
         result = CommonHelper.getRandomNumber(100000, 999999);
         break;
       case 'TODAY':
-        result = DateTimeHelper.getDateWithFormat(DateTimeHelper.getToday(), DateTimeHelper.AGENCY_DATE_FORMAT);
+        result = DateTimeHelper.getDateWithFormat(DateTimeHelper.getToday(), DateTimeHelper.COMMON_DATE_FORMAT);
         break;
       case 'TOMORROW':
-        result = DateTimeHelper.getDateWithFormat(DateTimeHelper.getDatePlusDay(1), DateTimeHelper.AGENCY_DATE_FORMAT);
+        result = DateTimeHelper.getDateWithFormat(DateTimeHelper.getDatePlusDay(1), DateTimeHelper.COMMON_DATE_FORMAT);
         break;
       case 'YESTERDAY':
-        result = DateTimeHelper.getDateWithFormat(DateTimeHelper.getDatePlusDay(-1), DateTimeHelper.AGENCY_DATE_FORMAT);
+        result = DateTimeHelper.getDateWithFormat(DateTimeHelper.getDatePlusDay(-1), DateTimeHelper.COMMON_DATE_FORMAT);
         break;
       case 'NEXT_n_DAY':
-        result = DateTimeHelper.getDatePlusDayWithFormat(seekNumber, DateTimeHelper.AGENCY_DATE_FORMAT);
+        result = DateTimeHelper.getDatePlusDayWithFormat(seekNumber, DateTimeHelper.COMMON_DATE_FORMAT);
         break;
       case 'IDIT_NEXT_n_DAY':
         result = DateTimeHelper.getDatePlusDayWithFormat(seekNumber, DateTimeHelper.DATE_FORMAT);
         break;
       case 'PREVIOUS_n_YEAR':
         result = DateTimeHelper.getDateWithFormat(DateTimeHelper.getDatePlusYear(DateTimeHelper.getDatePlusDay(-2), -seekNumber),
-          DateTimeHelper.AGENCY_DATE_FORMAT);
+          DateTimeHelper.COMMON_DATE_FORMAT);
         break;
       case 'NEXT_PREVIOUS_n_YEAR':
         result = DateTimeHelper.getYearPlus(seekNumber);
         break;
       case 'NEXT_YEAR_FROM_TODAY':
         result = DateTimeHelper.getDateWithFormat(DateTimeHelper.getDatePlusYear(DateTimeHelper.getDatePlusDay(-1), 1),
-          DateTimeHelper.AGENCY_DATE_FORMAT);
+          DateTimeHelper.COMMON_DATE_FORMAT);
         break;
       case 'NEXT_YEAR_FROM_TOMORROW':
         result = DateTimeHelper.getDateWithFormat(DateTimeHelper.getDatePlusYear(DateTimeHelper.getToday(), 1),
-          DateTimeHelper.AGENCY_DATE_FORMAT);
+          DateTimeHelper.COMMON_DATE_FORMAT);
         break;
       case 'NEXT_YEAR_FROM_NEXT_n_DAY':
         result = DateTimeHelper.getDateWithFormat(DateTimeHelper.getDatePlusYear(DateTimeHelper.getDatePlusDay(seekNumber - 1), 1),
-          DateTimeHelper.AGENCY_DATE_FORMAT);
+          DateTimeHelper.COMMON_DATE_FORMAT);
         break;
-      case 'UNIQUE_PHONE_NUMBER':
+      case 'PHONE_NUMBER':
         result = this.generateSGPhoneNumber();
         CacheHelper.getInstance().setItem(variableName, result);
         break;

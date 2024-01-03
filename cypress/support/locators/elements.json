@@ -1,20 +1,16 @@
 {
   "LoginPage": {
-    "Email Address": {
-      "selector": "#email",
+    "Username": {
+      "selector": "[name='username']",
       "type": "TextBox"
     },
     "Password": {
-      "selector": "#password",
+      "selector": "[name='password']",
       "type": "TextBox"
     },
-    "Sign In": {
-      "selector": "#next",
+    "Login": {
+      "selector": "button[type='submit']",
       "type": "Button"
-    },
-    "Forgot your password?": {
-      "selector": "#forgotPassword",
-      "type": "Link"
     }
   }
 }

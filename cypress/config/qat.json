@@ -1,6 +1,6 @@
 {
-  "baseUrl": "https://demowebshop.tricentis.com/",
+  "baseUrl": "https://opensource-demo.orangehrmlive.com",
   "env": {
-    "API_SERVER": "https://demowebshop.tricentis.com/"
+    "API_SERVER": "https://opensource-demo.orangehrmlive.com"
   }
 }
