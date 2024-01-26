@@ -1,6 +1,6 @@
-import {defineConfig} from 'cypress';
+import { defineConfig } from "cypress";
 import jp from "jsonpath";
-import {addCucumberPreprocessorPlugin} from "@badeball/cypress-cucumber-preprocessor";
+import { addCucumberPreprocessorPlugin } from "@badeball/cypress-cucumber-preprocessor";
 // @ts-ignore
 import browserify from "@badeball/cypress-cucumber-preprocessor/browserify";
 import AccessTokenFromCache from "./cypress/support/access-token/AccessTokenFromCache";
@@ -8,28 +8,27 @@ import FileHelper from "./cypress/support/helpers/file-helper";
 import axios from "axios";
 import _ from "lodash/fp";
 
-const allureWriter = require('@shelex/cypress-allure-plugin/writer');
-const fsExtra = require('fs-extra');
-const path = require('path');
-const gmailTester = require('gmail-tester');
-const Stopwatch = require('statman-stopwatch');
+import allureWriter from "@shelex/cypress-allure-plugin/writer";
+import fsExtra from "fs-extra";
+import path from "path";
+import gmailTester from "gmail-tester";
+import Stopwatch from "statman-stopwatch";
 
 export default defineConfig({
   env: {
     allure: true,
     allureAttachRequests: true,
     allureReuseAfterSpec: true,
-    allureResultsPath: 'reports/allure-results',
+    allureResultsPath: "reports/allure-results",
     excelTestDataToJSON: false,
     loadingTimeout: 200000,
     waitForControlTimeOut: 30000,
     apiResponseTimeOut: 120000,
-    dashboardRefreshTime: 300000
+    dashboardRefreshTime: 300000,
   },
-  screenshotsFolder: 'reports/screenshots',
+  screenshotsFolder: "reports/screenshots",
   video: false,
-  videoUploadOnPasses: false,
-  videosFolder: 'reports/videos',
+  videosFolder: "reports/videos",
   defaultCommandTimeout: 20000,
   responseTimeout: 60000,
   pageLoadTimeout: 120000,
@@ -42,18 +41,18 @@ export default defineConfig({
   e2e: {
     async setupNodeEvents(
       on: Cypress.PluginEvents,
-      config: Cypress.PluginConfigOptions
+      config: Cypress.PluginConfigOptions,
     ): Promise<Cypress.PluginConfigOptions> {
       // This is required for the preprocessor to be able to generate JSON reports after each run, and more,
       await addCucumberPreprocessorPlugin(on, config);
 
       function getConfigurationByFile(file): any {
-        const pathToConfigFile = path.resolve('./cypress/config', `${file}.json`);
+        const pathToConfigFile = path.resolve("./cypress/config", `${file}.json`);
         return fsExtra.readJson(pathToConfigFile);
       }
 
       function getTestDataFile(file): any {
-        const pathToTestData = path.resolve('./cypress/fixtures', `test-data.${file}.json`);
+        const pathToTestData = path.resolve("./cypress/fixtures", `test-data.${file}.json`);
         return fsExtra.readJSON(pathToTestData);
       }
 
@@ -64,27 +63,23 @@ export default defineConfig({
         "file:preprocessor",
         browserify(config, {
           typescript: require.resolve("typescript"),
-        })
+        }),
       );
       allureWriter(on, config);
 
       // accept a configFile value or use development by default
       // https://docs.cypress.io/api/plugins/configuration-api#Switch-between-multiple-configuration-files
-      const testEnv = config.env.configFile || 'qat';
+      const testEnv = config.env.configFile || "qat";
       const envConfig = await getConfigurationByFile(testEnv);
 
       on("task", {
-        "gmail:get-messages": async args => {
+        "gmail:get-messages": async (args) => {
           const tryIn = 180 * 1000;
           const stopWatch = new Stopwatch();
           stopWatch.start();
           let messages;
           do {
-            messages = await gmailTester.get_messages(
-              credentialsPath,
-              tokenPath,
-              args.options
-            );
+            messages = await gmailTester.get_messages(credentialsPath, tokenPath, args.options);
           } while (stopWatch.read() < tryIn && messages.length === 0);
           stopWatch.stop();
 
@@ -93,50 +88,52 @@ export default defineConfig({
         "get-test-data": () => {
           return getTestDataFile(testEnv);
         },
-        "isAccessTokenValid": (creds) => {
+        isAccessTokenValid: (creds) => {
           if (!AccessTokenFromCache.tokenExist()) {
             return false;
           }
 
           return creds == null ? AccessTokenFromCache.isValid() : AccessTokenFromCache.isValid(creds.email);
         },
-        "createAccessToken": ({token, email}) => {
+        createAccessToken: ({ token, email }) => {
           AccessTokenFromCache.create(token, email);
           return null;
         },
-        "getAccessToken": () => {
+        getAccessToken: () => {
           return AccessTokenFromCache.getAccessToken();
         },
-        "isFileExist": (filePath) => {
+        isFileExist: (filePath) => {
           return FileHelper.isFileExist(filePath);
         },
-        "jsonQuery": (obj) => {
+        jsonQuery: (obj) => {
           return jp.query(obj.json, obj.path);
         },
-        "genAccessTokenForUpload": () => {
+        genAccessTokenForUpload: () => {
           // VPN only
-          return axios.post(envConfig.env.accessTokenInfo.url, envConfig.env.accessTokenInfo.dataForUpload, {
-            auth: envConfig.env.accessTokenInfo.auth,
-            headers: {
-              apiKey: envConfig.env.accessTokenInfo.apiKey,
-              "Content-Type": "application/json",
-            }
-          }).then((response) => {
-            return response.data['access_Token'];
-          });
+          return axios
+            .post(envConfig.env.accessTokenInfo.url, envConfig.env.accessTokenInfo.dataForUpload, {
+              auth: envConfig.env.accessTokenInfo.auth,
+              headers: {
+                apiKey: envConfig.env.accessTokenInfo.apiKey,
+                "Content-Type": "application/json",
+              },
+            })
+            .then((response) => {
+              return response.data["access_Token"];
+            });
         },
-        "printLog": (message) => {
+        printLog: (message) => {
           console.log(message);
           return null;
-        }
+        },
       });
 
       // https://github.com/cypress-io/cypress/issues/8525: Reduce Memory Usage
-      on('before:browser:launch', (browser, launchOptions) => {
-        if (browser.name === 'chrome') {
+      on("before:browser:launch", (browser, launchOptions) => {
+        if (browser.name === "chrome") {
           // exposes window.gc() function that will manually force garbage collection
-          launchOptions.args.push('--js-flags=--expose-gc');
-          launchOptions.args.push('--window-size=1920,1080');
+          launchOptions.args.push("--js-flags=--expose-gc");
+          launchOptions.args.push("--window-size=1920,1080");
           // This is workaround for Chrome 117
           // https://github.com/cypress-io/cypress-documentation/issues/5479#issuecomment-1719336938
           // read ECONNRESET
@@ -144,8 +141,8 @@ export default defineConfig({
           //     at TCP.onStreamRead (node:internal/stream_base_commons:217:20)
           if (browser.isHeadless) {
             launchOptions.args = launchOptions.args.map((arg) => {
-              if (arg === '--headless') {
-                return '--headless=new';
+              if (arg === "--headless") {
+                return "--headless=new";
               }
 
               return arg;
@@ -158,8 +155,8 @@ export default defineConfig({
 
       return _.merge(config, envConfig);
     },
-    specPattern: 'cypress/e2e/**/*.feature',
-    excludeSpecPattern: ['**/_helpers/**', '**/premium-check/**'],
-    baseUrl: 'https://qat-shop.88direct.com/',
-  }
+    specPattern: "cypress/e2e/**/*.feature",
+    excludeSpecPattern: ["**/_helpers/**"],
+    baseUrl: "https://opensource-demo.orangehrmlive.com",
+  },
 });

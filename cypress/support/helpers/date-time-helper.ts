@@ -1,9 +1,9 @@
-import {DateTime} from 'luxon';
+import { DateTime } from "luxon";
 
 export class DateTimeHelper {
-  public static readonly DEFAULT_DATE_FORMAT: string = 'yyyy-MM-dd\'T\'HH:mm:ss';
-  public static readonly COMMON_DATE_FORMAT: string = 'yyyy-MM-dd';
-  public static readonly DATE_FORMAT: string = 'dd/MM/yyyy';
+  public static readonly DEFAULT_DATE_FORMAT: string = "yyyy-MM-dd'T'HH:mm:ss";
+  public static readonly COMMON_DATE_FORMAT: string = "yyyy-MM-dd";
+  public static readonly DATE_FORMAT: string = "dd/MM/yyyy";
 
   /**
    * Get today datetime with format
@@ -18,9 +18,7 @@ export class DateTimeHelper {
    * @returns string e.g. 2022-10-06T00:00:00
    */
   public static getDatePlusDay(numberOfDays: number): string {
-    return DateTime.now()
-      .plus({days: numberOfDays})
-      .toFormat(this.DEFAULT_DATE_FORMAT);
+    return DateTime.now().plus({ days: numberOfDays }).toFormat(this.DEFAULT_DATE_FORMAT);
   }
 
   /**
@@ -29,7 +27,7 @@ export class DateTimeHelper {
    */
   public static getPlusDayFromInputDate(fromDate: string, numberOfDays: number): string {
     return DateTime.fromFormat(fromDate, this.DEFAULT_DATE_FORMAT)
-      .plus({days: numberOfDays})
+      .plus({ days: numberOfDays })
       .toFormat(this.DEFAULT_DATE_FORMAT);
   }
 
@@ -38,9 +36,7 @@ export class DateTimeHelper {
    * @returns string with given format
    */
   public static getDatePlusDayWithFormat(numberOfDays: number, format: string): string {
-    return DateTime.now()
-      .plus({days: numberOfDays})
-      .toFormat(format);
+    return DateTime.now().plus({ days: numberOfDays }).toFormat(format);
   }
 
   /**
@@ -48,8 +44,7 @@ export class DateTimeHelper {
    * @returns string with given format
    */
   public static getDateWithFormat(date: string, format: string): string {
-    return DateTime.fromFormat(date, this.DEFAULT_DATE_FORMAT)
-      .toFormat(format);
+    return DateTime.fromFormat(date, this.DEFAULT_DATE_FORMAT).toFormat(format);
   }
 
   /**
@@ -57,8 +52,7 @@ export class DateTimeHelper {
    * @returns string with given format
    */
   public static getDateFromFormatToFormat(date: string, fromFormat, toFormat: string): string {
-    return DateTime.fromFormat(date, fromFormat)
-      .toFormat(toFormat);
+    return DateTime.fromFormat(date, fromFormat).toFormat(toFormat);
   }
 
   /**
@@ -66,8 +60,7 @@ export class DateTimeHelper {
    * @returns string with given format
    */
   public static changeDateFormat(date: string, fromFormat: string, toFormat: string): string {
-    return DateTime.fromFormat(date, fromFormat)
-      .toFormat(toFormat);
+    return DateTime.fromFormat(date, fromFormat).toFormat(toFormat);
   }
 
   /**
@@ -78,7 +71,7 @@ export class DateTimeHelper {
    */
   public static getDatePlusYear(fromDate: string, year: number): string {
     return DateTime.fromFormat(fromDate, this.DEFAULT_DATE_FORMAT)
-      .plus({years: year})
+      .plus({ years: year })
       .toFormat(this.DEFAULT_DATE_FORMAT);
   }
 
@@ -90,9 +83,7 @@ export class DateTimeHelper {
    * @returns string with given format
    */
   public static getDatePlusYearWithFormat(fromDate: string, year: number, format: string): string {
-    return DateTime.fromFormat(fromDate, this.DEFAULT_DATE_FORMAT)
-      .plus({years: year})
-      .toFormat(format);
+    return DateTime.fromFormat(fromDate, this.DEFAULT_DATE_FORMAT).plus({ years: year }).toFormat(format);
   }
 
   /**
@@ -101,9 +92,7 @@ export class DateTimeHelper {
    * @returns string e.g. 2012-05-31
    */
   public static getDateWithYear(year: number): string {
-    return DateTime.now()
-      .plus({years: year})
-      .toFormat(this.COMMON_DATE_FORMAT);
+    return DateTime.now().plus({ years: year }).toFormat(this.COMMON_DATE_FORMAT);
   }
 
   /**
@@ -145,14 +134,11 @@ export class DateTimeHelper {
    * @return e.g. current month is Api, returns Mar
    */
   public static getMonthPlus(month: number, format: string): string {
-    return DateTime.now()
-      .plus({months: month})
-      .toFormat(format);
+    return DateTime.now().plus({ months: month }).toFormat(format);
   }
 
   public static getYearPlus(year: number): string {
-    return DateTime.now()
-      .plus({years: year}).toFormat('yyyy');
+    return DateTime.now().plus({ years: year }).toFormat("yyyy");
   }
 
   public static getTodayDay(): number {
@@ -161,7 +147,7 @@ export class DateTimeHelper {
 
   public static getDatePlusDayFrom(fromDate: string, day: number): string {
     return DateTime.fromFormat(fromDate, this.DEFAULT_DATE_FORMAT)
-      .plus({days: day})
+      .plus({ days: day })
       .toFormat(this.DEFAULT_DATE_FORMAT);
   }
 }

@@ -1,5 +1,5 @@
-import portalElements from '../locators/elements.json';
-import {HtmlLocatorType, ILocator} from './ILocator';
+import portalElements from "../locators/elements.json";
+import { HtmlLocatorType, ILocator } from "./ILocator";
 
 export class JsonLocator {
   public static get(page: string, field: string): ILocator {
@@ -9,7 +9,7 @@ export class JsonLocator {
         selector: element.selector,
         gSelector: element.gSelector,
         type: HtmlLocatorType[element.type as keyof typeof HtmlLocatorType],
-        reload: element.hasOwnProperty('reload')
+        reload: element.hasOwnProperty("reload"),
       };
     } catch (e) {
       const moreInfo = `\nFailed to get locator: page "${page}", field "${field}"`;

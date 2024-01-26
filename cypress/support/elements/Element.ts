@@ -1,5 +1,3 @@
-import BaseElement from './BaseElement';
+import BaseElement from "./BaseElement";
 
-export default class Element extends BaseElement {
-
-}
+export default class Element extends BaseElement {}

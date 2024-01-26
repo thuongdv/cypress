@@ -3,6 +3,4 @@
 
 import TextBox from "./TextBox";
 
-export default class DynamicTextBox extends TextBox {
-
-}
+export default class DynamicTextBox extends TextBox {}

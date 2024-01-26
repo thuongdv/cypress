@@ -3,5 +3,4 @@
 
 import ComboBox from "./ComboBox";
 
-export default class DynamicComboBox extends ComboBox {
-}
+export default class DynamicComboBox extends ComboBox {}

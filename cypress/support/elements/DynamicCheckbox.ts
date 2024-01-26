@@ -3,5 +3,4 @@
 
 import Checkbox from "./Checkbox";
 
-export default class DynamicCheckbox extends Checkbox {
-}
+export default class DynamicCheckbox extends Checkbox {}

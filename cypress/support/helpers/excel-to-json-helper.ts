@@ -1,71 +1,24 @@
-import {CellObject, WorkBook, WorkSheet} from 'xlsx';
-// @ts-ignore
-import path = require('path');
-
-// @ts-ignore
-const fs = require('fs');
-// @ts-ignore
-const XLSX = require('xlsx');
+import { CellObject, WorkBook, WorkSheet } from "xlsx";
+import path from "path";
+import fs from "fs";
+import XLSX from "xlsx";
 
 /**
  * The JSON structure looks like:
  * {
- *   "MT_PC_001": {
- *     "PortalMotorGetAQuotePage": {
- *       "Car_Brand_Model": "Infiniti_Q30 1.5",
- *       "Year of registration": 2015,
- *       "Average mileage per year?": "8,000-12,000km"
+ *   "001": {
+ *     "PortalPage": {
+ *       "CModel": "Infiniti_Q30 1.5",
  *     },
- *     "PortalMotorYourQuotePage": {
- *       "Your Excess": "",
- *       "Driver plans": "Value Plus",
- *       "Add name drivers #1": ""
- *     },
- *     "PortalMotorFinalDetailsPage": {
- *       "Post Code": "",
- *       "Building/Block/House no.": "",
- *       "Street name": ""
- *     },
- *     "PortalMotorReviewPage": {
- *       "[Expected] Total Premium": "",
- *       "[Expected] Excess": ""
- *     },
- *     "PortalMotorBuyPage": {
- *       "How do you want to pay ?": "Monthly",
- *       "Name on card": "Padmasri",
- *       "Issuing bank": "Bangkok Bank "
- *     },
- *     "MT_PC_002": {
- *       "PortalMotorGetAQuotePage": {
- *         "Car_Brand_Model": "Honda_CIVIC SIR 3M",
- *         "Year of registration": 2017,
- *         "Average mileage per year?": "Less than 8,000 km"
- *       },
- *       "PortalMotorYourQuotePage": {
- *         "Your Excess": "",
- *         "Driver plans": "Value",
- *         "Add name drivers #1": ""
- *       },
- *       "PortalMotorFinalDetailsPage": {
- *         "Post Code": "",
- *         "Building/Block/House no.": "",
- *         "Street name": ""
- *       },
- *       "PortalMotorReviewPage": {
- *         "[Expected] Total Premium": "",
- *         "[Expected] Excess": ""
- *       },
- *       "PortalMotorBuyPage": {
- *         "How do you want to pay ?": "Monthly",
- *         "Name on card": "Padmasri",
- *         "Issuing bank": "Bangkok Bank "
+ *     "002": {
+ *       "PortalPage": {
+ *         "CModel": "Honda_CIVIC SIR 3M",
  *       }
  *     }
  *   }
  * }
  */
 export default class ExcelToJsonHelper {
-
   constructor(excelFilePath, out) {
     this.excelFilePath = excelFilePath;
     this.outputFolder = out;
@@ -75,7 +28,7 @@ export default class ExcelToJsonHelper {
     }
     this.workbook = XLSX.readFile(this.excelFilePath);
   }
-  private static readonly EXCLUDED_SHEETS = ['DataValidation'];
+  private static readonly EXCLUDED_SHEETS = ["DataValidation"];
   private static readonly PAGE_ROW_INDEX = 0;
   private static readonly HEADER_ROW_INDEX = 1;
   private static readonly DATA_ROW_INDEX = 2;
@@ -132,17 +85,17 @@ export default class ExcelToJsonHelper {
    * Get data only
    */
   private getData(): Array<any> {
-    const range = XLSX.utils.decode_range(this.worksheet['!ref']);
+    const range = XLSX.utils.decode_range(this.worksheet["!ref"]);
     const result = [];
     for (let rowNum = ExcelToJsonHelper.DATA_ROW_INDEX; rowNum <= range.e.r; rowNum++) {
       const row = [];
       for (let colNum = range.s.c; colNum <= range.e.c; colNum++) {
-        const cell = this.worksheet[
-          XLSX.utils.encode_cell({ r: rowNum, c: colNum })
-        ];
-        if (typeof cell === 'undefined') {
-          row.push('');
-        } else { row.push(cell.v); }
+        const cell = this.worksheet[XLSX.utils.encode_cell({ r: rowNum, c: colNum })];
+        if (typeof cell === "undefined") {
+          row.push("");
+        } else {
+          row.push(cell.v);
+        }
       }
       result.push(row);
     }
@@ -155,14 +108,14 @@ export default class ExcelToJsonHelper {
    */
   private getHeaders(): Array<string> {
     const headers = [];
-    const range = XLSX.utils.decode_range(this.worksheet['!ref']);
+    const range = XLSX.utils.decode_range(this.worksheet["!ref"]);
     for (let colNum = range.s.c; colNum <= range.e.c; colNum++) {
-      const cell = this.worksheet[
-        XLSX.utils.encode_cell({ r: ExcelToJsonHelper.HEADER_ROW_INDEX, c: colNum })
-      ];
-      if (typeof cell === 'undefined') {
-        headers.push('');
-      } else { headers.push(cell.v); }
+      const cell = this.worksheet[XLSX.utils.encode_cell({ r: ExcelToJsonHelper.HEADER_ROW_INDEX, c: colNum })];
+      if (typeof cell === "undefined") {
+        headers.push("");
+      } else {
+        headers.push(cell.v);
+      }
     }
 
     return headers;
@@ -183,26 +136,31 @@ export default class ExcelToJsonHelper {
    * }
    */
   private getPagesWithRange(): any {
-    const mergedCells = this.worksheet['!merges'];
+    const mergedCells = this.worksheet["!merges"];
 
     mergedCells.sort((a, b) => {
-      if (a.s.c > b.s.c) { return 1; }
-      else if (a.s.c < b.s.c) { return -1; }
-      else { return 0; }
+      if (a.s.c > b.s.c) {
+        return 1;
+      } else if (a.s.c < b.s.c) {
+        return -1;
+      } else {
+        return 0;
+      }
     });
 
     const pagesWithRange = {};
 
     mergedCells.forEach((obj) => {
       for (let column = obj.s.c; column <= obj.e.c; column++) {
-        const cell: CellObject = this.worksheet[
-          XLSX.utils.encode_cell({ r: ExcelToJsonHelper.PAGE_ROW_INDEX, c: column })
-        ];
-        if (typeof cell === 'undefined') { continue; }
+        const cell: CellObject =
+          this.worksheet[XLSX.utils.encode_cell({ r: ExcelToJsonHelper.PAGE_ROW_INDEX, c: column })];
+        if (typeof cell === "undefined") {
+          continue;
+        }
 
         pagesWithRange[cell.v.toString()] = {
           startColumn: obj.s.c,
-          endColumn: obj.e.c
+          endColumn: obj.e.c,
         };
       }
     });

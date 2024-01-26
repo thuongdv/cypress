@@ -14,12 +14,12 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
-import './commands';
+import "./commands";
 // For logging command's duration
-import {commandTimings} from 'cypress-timings';
+import { commandTimings } from "cypress-timings";
 // For Allure report
-import '@shelex/cypress-allure-plugin';
-import chaiJsonSchema from 'chai-json-schema';
+import "@shelex/cypress-allure-plugin";
+import chaiJsonSchema from "chai-json-schema";
 
 commandTimings();
 
@@ -27,19 +27,21 @@ commandTimings();
 // require('./commands')
 
 // Reference: https://docs.cypress.io/api/events/catalog-of-events#Uncaught-Exceptions
-Cypress.on('uncaught:exception', (err) => {
-  if (err.message.includes('The user aborted a request') ||
-    err.message.includes('Cannot set properties of undefined') ||
-    err.message.includes('Cannot read properties of undefined') ||
+Cypress.on("uncaught:exception", (err) => {
+  if (
+    err.message.includes("The user aborted a request") ||
+    err.message.includes("Cannot set properties of undefined") ||
+    err.message.includes("Cannot read properties of undefined") ||
     err.message.includes("Unexpected token '<'") ||
     err.message.includes("Invalid or unexpected token") ||
-    err.message.includes('The following error originated from your application code')) {
-    return false
+    err.message.includes("The following error originated from your application code")
+  ) {
+    return false;
   }
-})
+});
 
-require('cypress-xpath');
-require('@cypress/skip-test/support');
+require("cypress-xpath");
+require("@cypress/skip-test/support");
 // require('cypress-failed-log');
 
 // Hide fetch/XHR requests
@@ -54,16 +56,16 @@ require('@cypress/skip-test/support');
 //   app.document.head.appendChild(style);
 // }
 
-const chai = require('chai');
-const chaiSubset = require('chai-subset');
+const chai = require("chai");
+const chaiSubset = require("chai-subset");
 chai.use(chaiSubset);
 chai.use(chaiJsonSchema);
 
 // https://github.com/cypress-io/cypress/issues/8525: Reduce Memory Usage
 afterEach(() => {
-  cy.window().then(win => {
+  cy.window().then((win) => {
     // window.gc is enabled with --js-flags=--expose-gc chrome flag
-    if (typeof win.gc === 'function') {
+    if (typeof win.gc === "function") {
       // run gc multiple times in an attempt to force a major GC between tests
       win.gc();
       win.gc();

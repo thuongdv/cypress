@@ -1,22 +1,21 @@
 /// <reference types="cypress" />
 
 import Chainable = Cypress.Chainable;
-import * as util from 'util';
-import promisify from 'cypress-promise';
-import StringHelper from '../helpers/string-helper';
-import {ILocator} from '../helpers/ILocator';
-
+import * as util from "util";
+import promisify from "cypress-promise";
+import StringHelper from "../helpers/string-helper";
+import { ILocator } from "../helpers/ILocator";
 
 export default class BaseElement {
   protected locator: ILocator;
 
   public constructor(locator: ILocator | string) {
-    if (typeof locator === 'string') {
+    if (typeof locator === "string") {
       this.locator = {
         selector: locator,
         gSelector: null,
         type: null,
-        reload: null
+        reload: null,
       };
     } else {
       this.locator = locator;
@@ -24,35 +23,41 @@ export default class BaseElement {
   }
 
   public click(): void {
-    this.scrollIntoView().click({force: true});
+    this.scrollIntoView().click({ force: true });
   }
 
   public doubleClickWOScroll(): void {
-    this.chain().dblclick({force: true});
+    this.chain().dblclick({ force: true });
   }
 
   public waitForVisible(timeoutInMilliseconds: number): void {
-    cy.waitUntil(() => cy.cget(this.locator.selector).then($ele => {
-        if ($ele === undefined) {
-          return false;
-        } else {
-          return $ele.length > 0;
-        }
-      }),
+    cy.waitUntil(
+      () =>
+        cy.cget(this.locator.selector).then(($ele) => {
+          if ($ele === undefined) {
+            return false;
+          } else {
+            return $ele.length > 0;
+          }
+        }),
       {
         timeout: timeoutInMilliseconds,
-        description: `Wait for ${this.locator.selector} visible`
-      });
+        description: `Wait for ${this.locator.selector} visible`,
+      },
+    );
   }
 
   public waitForInvisible(timeoutInMilliseconds: number): void {
-    cy.waitUntil(() => cy.cget(this.locator.selector).then($ele => {
-        return $ele === undefined || $ele.length === 0;
-      }),
+    cy.waitUntil(
+      () =>
+        cy.cget(this.locator.selector).then(($ele) => {
+          return $ele === undefined || $ele.length === 0;
+        }),
       {
         timeout: timeoutInMilliseconds,
-        description: `Wait for ${this.locator.selector} invisible`
-      });
+        description: `Wait for ${this.locator.selector} invisible`,
+      },
+    );
   }
 
   public getLocator(): ILocator {
@@ -75,11 +80,13 @@ export default class BaseElement {
     let length;
 
     if (StringHelper.isXpath(this.locator.selector)) {
-      length = await promisify(cy.xpath(util.format('count(%s)', this.locator.selector)));
+      length = await promisify(cy.xpath(util.format("count(%s)", this.locator.selector)));
     } else {
-      length = await promisify(cy.get('body').then((body) => {
-        return body.find(this.locator.selector).length;
-      }));
+      length = await promisify(
+        cy.get("body").then((body) => {
+          return body.find(this.locator.selector).length;
+        }),
+      );
     }
 
     return Number(length) > 0;
@@ -87,22 +94,24 @@ export default class BaseElement {
 
   public length(): Cypress.Chainable<any> {
     if (StringHelper.isXpath(this.locator.selector)) {
-      return cy.window().then(win => {
+      return cy.window().then((win) => {
         const selector = this.locator.selector.replace(/"/g, "'");
-        const nodesSnapshot = win.eval(`document.evaluate("${selector}", document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null)`);
+        const nodesSnapshot = win.eval(
+          `document.evaluate("${selector}", document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null)`,
+        );
         return nodesSnapshot.snapshotLength;
       });
     }
 
-    return cy.get('body').then((body) => {
+    return cy.get("body").then((body) => {
       return body.find(this.locator.selector).length;
     });
   }
 
   public scrollIntoView(): Cypress.Chainable<any> {
-    const viewportHeight = Cypress.config('viewportHeight');
+    const viewportHeight = Cypress.config("viewportHeight");
     const top = viewportHeight / 2 - 50;
     // Scroll element under the top fix area
-    return cy.cget(this.locator.selector).scrollIntoView({offset: {top: -top, left: 0}});
+    return cy.cget(this.locator.selector).scrollIntoView({ offset: { top: -top, left: 0 } });
   }
 }

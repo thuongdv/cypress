@@ -1,3 +1,3 @@
 export default class Constant {
-  public static readonly TEST = '';
+  public static readonly TEST = "";
 }

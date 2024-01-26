@@ -53,6 +53,6 @@ export class CacheHelper {
   }
 
   public removeAll(): void {
-    Object.keys(this.cacheStorage).forEach(key => delete this.cacheStorage[key]);
+    Object.keys(this.cacheStorage).forEach((key) => delete this.cacheStorage[key]);
   }
 }

@@ -6,7 +6,7 @@ export default class StringHelper {
       return text;
     }
 
-    return match[1].replace(/,/g, '');
+    return match[1].replace(/,/g, "");
   }
 
   public static isPositiveNumeric(value): boolean {
@@ -30,7 +30,7 @@ export default class StringHelper {
    * @param length
    */
   public static generateString(characters: string, length: number): string {
-    let result = '';
+    let result = "";
     const charactersLength = characters.length;
     for (let i = 0; i < length; i++) {
       result += characters.charAt(Math.floor(Math.random() * charactersLength));
@@ -43,13 +43,11 @@ export default class StringHelper {
   }
 
   public static sanitize(text: string): string {
-    return text.replace(/\\n+/gm, '')
-      .replace(/\s{2,}/gm, ' ');
+    return text.replace(/\\n+/gm, "").replace(/\s{2,}/gm, " ");
   }
 
   public static capitalizeFirstLetter(text: string): string {
-    return text.replace(/\w\S*/g,
-      txt => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
+    return text.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
   }
 
   public static isXpath(locator: string): boolean {

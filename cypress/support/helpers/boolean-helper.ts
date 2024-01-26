@@ -4,14 +4,14 @@ export default class BooleanHelper {
    * @param value e.g. 1 or true
    */
   public static getBoolean(value: string | boolean | number): boolean {
-    const v = typeof value === 'string' ? value.toLowerCase() : value;
+    const v = typeof value === "string" ? value.toLowerCase() : value;
     switch (v) {
       case true:
-      case 'true':
+      case "true":
       case 1:
-      case '1':
-      case 'on':
-      case 'yes':
+      case "1":
+      case "on":
+      case "yes":
         return true;
       default:
         return false;
