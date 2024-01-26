@@ -1,6 +1,7 @@
 import { defineConfig } from "cypress";
 import jp from "jsonpath";
 import { addCucumberPreprocessorPlugin } from "@badeball/cypress-cucumber-preprocessor";
+import { configureAllureAdapterPlugins } from '@mmisty/cypress-allure-adapter/plugins';
 // @ts-ignore
 import browserify from "@badeball/cypress-cucumber-preprocessor/browserify";
 import AccessTokenFromCache from "./cypress/support/access-token/AccessTokenFromCache";
@@ -8,7 +9,6 @@ import FileHelper from "./cypress/support/helpers/file-helper";
 import axios from "axios";
 import _ from "lodash/fp";
 
-import allureWriter from "@shelex/cypress-allure-plugin/writer";
 import fsExtra from "fs-extra";
 import path from "path";
 import gmailTester from "gmail-tester";
@@ -17,10 +17,10 @@ import Stopwatch from "statman-stopwatch";
 export default defineConfig({
   env: {
     allure: true,
+    allureCleanResults: true,
+    allureResults: "reports/allure-results",
     allureAttachRequests: true,
     allureReuseAfterSpec: true,
-    allureResultsPath: "reports/allure-results",
-    excelTestDataToJSON: false,
     loadingTimeout: 200000,
     waitForControlTimeOut: 30000,
     apiResponseTimeOut: 120000,
@@ -45,6 +45,7 @@ export default defineConfig({
     ): Promise<Cypress.PluginConfigOptions> {
       // This is required for the preprocessor to be able to generate JSON reports after each run, and more,
       await addCucumberPreprocessorPlugin(on, config);
+      configureAllureAdapterPlugins(on, config);
 
       function getConfigurationByFile(file): any {
         const pathToConfigFile = path.resolve("./cypress/config", `${file}.json`);
@@ -65,7 +66,6 @@ export default defineConfig({
           typescript: require.resolve("typescript"),
         }),
       );
-      allureWriter(on, config);
 
       // accept a configFile value or use development by default
       // https://docs.cypress.io/api/plugins/configuration-api#Switch-between-multiple-configuration-files

@@ -13,12 +13,13 @@
 // https://on.cypress.io/configuration
 // ***********************************************************
 
+// import cypress-allure-adapter first to have all custom
+// commands being collapsed in report as parent command
+import '@mmisty/cypress-allure-adapter/support';
 // Import commands.js using ES2015 syntax:
 import "./commands";
 // For logging command's duration
 import { commandTimings } from "cypress-timings";
-// For Allure report
-import "@shelex/cypress-allure-plugin";
 import chaiJsonSchema from "chai-json-schema";
 
 commandTimings();

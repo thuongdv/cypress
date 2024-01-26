@@ -8,7 +8,6 @@
       "cypress",
       "cypress-xpath",
       "node",
-      "@shelex/cypress-allure-plugin",
       "@badeball/cypress-cucumber-preprocessor",
     ],
     "esModuleInterop": true,
@@ -18,7 +17,7 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
   },
-  "include": ["**/*.[ts,js]", "../node_modules/@shelex/cypress-allure-plugin/reporter", "../node_modules/cypress"],
+  "include": ["**/*.[ts,js]", "../node_modules/cypress"],
   "exclude": ["../dist/out-tsc"],
   "typeRoots": ["node_modules/@types"],
 }
