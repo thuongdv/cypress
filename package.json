@@ -58,7 +58,7 @@
     "node-html-parser": "5.3.3",
     "resolve": "1.22.2",
     "rimraf": "3.0.2",
-    "statman-stopwatch": "2.13.0",
+    "statman-stopwatch": "2.18.0",
     "ts-node": "8.3.0",
     "typescript": "5.3.3",
     "uuid": "9.0.0",
