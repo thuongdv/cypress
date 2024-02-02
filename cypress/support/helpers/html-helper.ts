@@ -1,4 +1,4 @@
-import { parse } from "node-html-parser";
+import { parse, HTMLElement } from "node-html-parser";
 
 class HtmlHelper {
   private readonly htmlContent: string;
@@ -7,12 +7,30 @@ class HtmlHelper {
     this.htmlContent = htmlContent;
   }
 
-  public getCode(): string {
-    const root = parse(this.htmlContent);
-    const codeText: string = root.querySelector("#BodyPlaceholder_UserVerificationEmailBodySentence2").textContent;
-    const matches = codeText.match(/Your code is: (\d+)/);
+  public getCode(): string | null {
+    try {
+      const root: HTMLElement = parse(this.htmlContent);
+      const codeElement: HTMLElement | null = root.querySelector(
+        "#BodyPlaceholder_UserVerificationEmailBodySentence2",
+      );
 
-    return matches[1];
+      if (!codeElement) {
+        return null;
+      }
+
+      const codeText: string | undefined = codeElement.textContent;
+
+      if (!codeText) {
+        return null;
+      }
+
+      const matches = codeText.match(/Your code is: (\d+)/);
+
+      return matches ? matches[1] : null;
+    } catch (error) {
+      console.error("Error parsing HTML: ", error);
+      return null;
+    }
   }
 }
 

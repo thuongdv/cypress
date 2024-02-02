@@ -17,7 +17,7 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
   },
-  "include": ["**/*.[ts,js]", "../node_modules/cypress"],
+  "include": ["**/*.[ts,js]", "node_modules/cypress"],
   "exclude": ["../dist/out-tsc"],
   "typeRoots": ["node_modules/@types"],
 }

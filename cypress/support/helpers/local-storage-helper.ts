@@ -5,25 +5,31 @@ export class LocalStorageHelper {
     localStorage.setItem(key, JSON.stringify(data));
   }
 
-  public static getDataFromLocalStorage(key: string): any {
-    return JSON.parse(localStorage.getItem(key));
+  public static setData<T>(key: string, data: string): void {
+    localStorage.setItem(key, data);
   }
 
-  public static removeDataFromLocalStorage(key: any): void {
+  public static getDataFromLocalStorage<T>(key: string): T | null {
+    try {
+      const storedData = localStorage.getItem(key);
+  
+      if (storedData) {
+        return JSON.parse(storedData) as T;
+      }
+  
+      return null;
+    } catch (error) {
+      console.error(`Error parsing JSON from localStorage for key '${key}':`, error);
+      return null;
+    }
+  }
+  
+
+  public static removeDataFromLocalStorage(key: string): void {
     localStorage.removeItem(key);
   }
 
   public static deleteAllDataFromLocalStorage(): void {
     localStorage.clear();
-  }
-
-  public static setDataToExistingDataInLocalStorage(dataName: string, key: string, newValue: any) {
-    let dataExistingInLocalStorage = LocalStorageHelper.getDataFromLocalStorage(dataName);
-    if (dataExistingInLocalStorage === null) {
-      return;
-    }
-
-    dataExistingInLocalStorage[key] = newValue;
-    LocalStorageHelper.setDataToLocalStorage(dataName, dataExistingInLocalStorage);
   }
 }

@@ -1,4 +1,4 @@
-import BasePage from "./BasePage";
+import BasePage from "./base-page";
 import Button from "../elements/Button";
 import { JsonLocator } from "../helpers/json-locator";
 
