@@ -26,8 +26,6 @@ declare namespace Cypress {
 
     cqueue(): Chainable<any>;
 
-    agentBulkRegistration(options): Chainable<any>;
-
     printLog(message): void;
   }
 }

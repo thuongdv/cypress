@@ -16,6 +16,7 @@
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
+    "skipLibCheck": true,
   },
   "include": ["**/*.[ts,js]", "node_modules/cypress"],
   "exclude": ["../dist/out-tsc"],

@@ -2,11 +2,10 @@
 
 import Chainable = Cypress.Chainable;
 import * as util from "util";
-import promisify from "cypress-promise";
 import StringHelper from "../helpers/string-helper";
 import { ILocator } from "../helpers/ILocator";
 
-export default class BaseElement {
+export default abstract class BaseElement {
   protected locator: ILocator;
 
   public constructor(locator: ILocator | string) {
@@ -71,25 +70,6 @@ export default class BaseElement {
   public setDynamicValue(...values: any[]): this {
     this.locator.selector = util.format(this.locator.selector, ...values);
     return this;
-  }
-
-  /**
-   * Check element exist or not
-   */
-  public async isExistent(): Promise<boolean> {
-    let length;
-
-    if (StringHelper.isXpath(this.locator.selector)) {
-      length = await promisify(cy.xpath(util.format("count(%s)", this.locator.selector)));
-    } else {
-      length = await promisify(
-        cy.get("body").then((body) => {
-          return body.find(this.locator.selector).length;
-        }),
-      );
-    }
-
-    return Number(length) > 0;
   }
 
   public length(): Cypress.Chainable<any> {

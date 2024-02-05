@@ -1,8 +1,8 @@
 export interface ILocator {
   selector: string;
-  gSelector: string;
-  type: HtmlLocatorType;
-  reload: boolean;
+  gSelector: string | null;
+  type: HtmlLocatorType | null;
+  reload: boolean | null;
 }
 
 export enum HtmlLocatorType {

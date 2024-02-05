@@ -42,7 +42,6 @@
     "cypress-multi-reporters": "1.6.0",
     "cypress-network-idle": "1.14.2",
     "cypress-parallel": "https://gitpkg.now.sh/thuongdv/cypress-parallel/lib",
-    "cypress-promise": "1.1.0",
     "cypress-timings": "1.0.0",
     "cypress-xpath": "1.6.2",
     "eslint": "8.56.0",
